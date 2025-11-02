@@ -1,6 +1,7 @@
 # Core dependencies
 python-dotenv==1.0.1  # Environment variables
 gradio==4.44.0  # UI framework
+huggingface-hub==0.26.2  # Fix compatibility with Gradio
 requests==2.31.0  # HTTP requests
 beautifulsoup4==4.12.3  # Web scraping
 selenium==4.16.0  # Dynamic web scraping

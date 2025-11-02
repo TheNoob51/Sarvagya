@@ -62,12 +62,27 @@ class ScrapingConfig:
         self.user_agent = os.getenv('USER_AGENT', self.user_agent)
 
 @dataclass
+class SheetsConfig:
+    """Configuration for Google Sheets integration"""
+    spreadsheet_name: str = "Research Assistant Data"
+    worksheet_name: str = "Research Data"
+    auto_cleanup_days: int = 90
+    max_requests_per_minute: int = 100
+    
+    def __post_init__(self):
+        # Load from environment variables with defaults
+        self.spreadsheet_name = os.getenv('GOOGLE_SHEETS_NAME', self.spreadsheet_name)
+        self.worksheet_name = os.getenv('GOOGLE_SHEETS_WORKSHEET', self.worksheet_name)
+        self.auto_cleanup_days = int(os.getenv('GOOGLE_SHEETS_CLEANUP_DAYS', self.auto_cleanup_days))
+
+@dataclass
 class AppConfig:
     """Main application configuration"""
     api: APIConfig
     database: DatabaseConfig
     scraping: ScrapingConfig
     research: ResearchConfig
+    sheets: SheetsConfig
     
     # Application settings
     debug: bool = False
@@ -88,12 +103,14 @@ def load_config() -> AppConfig:
     database_config = DatabaseConfig()
     scraping_config = ScrapingConfig()
     research_config = ResearchConfig()
+    sheets_config = SheetsConfig()
     
     config = AppConfig(
         api=api_config,
         database=database_config,
         scraping=scraping_config,
-        research=research_config
+        research=research_config,
+        sheets=sheets_config
     )
     
     return config
