@@ -357,7 +357,7 @@ class MainOrchestrator:
                 self._execute_with_timeout,
                 self.router_agent.analyze_query,
                 context.query,
-                30  # 30 second timeout for planning
+                timeout_seconds=30  # 30 second timeout for planning
             )
             
             research_plan = future.result(timeout=35)
@@ -692,7 +692,7 @@ class MainOrchestrator:
                 self._execute_with_timeout,
                 self.fact_checker_agent.check_facts,
                 information_sources,
-                30  # 30 second timeout
+                timeout_seconds=30  # 30 second timeout
             )
             
             fact_check_result = future.result(timeout=35)
@@ -788,7 +788,7 @@ class MainOrchestrator:
                 verified_facts,
                 source_infos,
                 report_config,
-                30  # 30 second timeout
+                timeout_seconds=30  # 30 second timeout
             )
             
             research_report = future.result(timeout=35)

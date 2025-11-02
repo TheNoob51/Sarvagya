@@ -1184,8 +1184,6 @@ To update API keys and configuration:
                    debug=debug)
         
         interface.launch(
-            server_name=host,
-            server_port=port,
             share=share,
             debug=debug,
             show_error=True,

@@ -404,11 +404,10 @@ Examples:
         
         # Launch the interface
         app.launch(
-            server_name=host,
-            server_port=port,
+            host=host,
+            port=port,
             share=args.share,
-            debug=args.debug,
-            show_error=True
+            debug=args.debug
         )
         
         return 0
