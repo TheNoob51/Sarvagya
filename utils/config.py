@@ -31,7 +31,10 @@ class APIConfig:
     def __post_init__(self):
         # Load from environment variables
         self.gemini_api_key = os.getenv('GEMINI_API_KEY')
-        self.serpapi_key = os.getenv('SERPAPI_KEY')
+        serpapi = os.getenv('SERPAPI_KEY')
+        # Ignore placeholder values
+        if serpapi and not serpapi.startswith('your_'):
+            self.serpapi_key = serpapi
         self.google_sheets_credentials_path = os.getenv('GOOGLE_SHEETS_CREDENTIALS_PATH')
 
 @dataclass

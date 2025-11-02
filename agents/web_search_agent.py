@@ -13,7 +13,10 @@ from dataclasses import dataclass
 import requests
 from urllib.parse import urlparse, urljoin
 import structlog
-from duckduckgo_search import DDGS
+try:
+    from ddgs import DDGS
+except ImportError:
+    from duckduckgo_search import DDGS
 
 from agents.data_models import SearchResult
 from utils.config import AppConfig
