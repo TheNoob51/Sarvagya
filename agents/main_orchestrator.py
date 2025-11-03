@@ -692,10 +692,10 @@ class MainOrchestrator:
                 self._execute_with_timeout,
                 self.fact_checker_agent.check_facts,
                 information_sources,
-                timeout_seconds=30  # 30 second timeout
+                timeout_seconds=60  # 60 second timeout for thorough fact checking
             )
             
-            fact_check_result = future.result(timeout=35)
+            fact_check_result = future.result(timeout=65)
             
             # Store result
             context.fact_check_result = AgentResult(
@@ -788,10 +788,10 @@ class MainOrchestrator:
                 verified_facts,
                 source_infos,
                 report_config,
-                timeout_seconds=30  # 30 second timeout
+                timeout_seconds=90  # 90 second timeout for comprehensive reports
             )
             
-            research_report = future.result(timeout=35)
+            research_report = future.result(timeout=95)
             
             # Store result
             context.summarizer_result = AgentResult(

@@ -864,23 +864,215 @@ To update API keys and configuration:
         Returns:
             Gradio Blocks interface
         """
+        # Custom theme with modern colors
+        custom_theme = gr.themes.Soft(
+            primary_hue="blue",
+            secondary_hue="cyan",
+            neutral_hue="slate",
+            font=["Inter", "system-ui", "sans-serif"],
+        ).set(
+            body_background_fill="linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            body_background_fill_dark="linear-gradient(135deg, #1e3a8a 0%, #312e81 100%)",
+            button_primary_background_fill="linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
+            button_primary_background_fill_hover="linear-gradient(90deg, #764ba2 0%, #667eea 100%)",
+            button_primary_text_color="white",
+        )
+        
         with gr.Blocks(
-            title="Intelligent Research Assistant",
-            theme=gr.themes.Soft(),
+            title="🔬 Intelligent Research Assistant",
+            theme=custom_theme,
             css="""
-            .research-container { padding: 20px; }
-            .progress-display { background-color: #f0f0f0; padding: 15px; border-radius: 5px; }
-            .status-success { color: #28a745; }
-            .status-error { color: #dc3545; }
-            .status-warning { color: #ffc107; }
+            /* Main container styling */
+            .gradio-container {
+                max-width: 1400px !important;
+                margin: auto !important;
+            }
+            
+            /* Header styling */
+            .main-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 40px 30px;
+                border-radius: 20px;
+                margin-bottom: 30px;
+                box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+                color: white;
+                text-align: center;
+            }
+            
+            .main-header h1 {
+                font-size: 3em;
+                margin: 0;
+                font-weight: 700;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            }
+            
+            .main-header p {
+                font-size: 1.2em;
+                margin-top: 10px;
+                opacity: 0.95;
+            }
+            
+            /* Card styling */
+            .card {
+                background: white;
+                border-radius: 15px;
+                padding: 25px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                margin-bottom: 20px;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            }
+            
+            /* Progress display */
+            .progress-display {
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                color: white;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+                font-weight: 500;
+                animation: pulse 2s ease-in-out infinite;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.8; }
+            }
+            
+            /* Status indicators */
+            .status-display {
+                padding: 15px;
+                border-radius: 10px;
+                font-weight: 600;
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .status-success {
+                background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+                color: white;
+                box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
+            }
+            
+            .status-error {
+                background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+                color: white;
+                box-shadow: 0 4px 15px rgba(235, 51, 73, 0.3);
+            }
+            
+            .status-warning {
+                background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+                color: white;
+                box-shadow: 0 4px 15px rgba(242, 153, 74, 0.3);
+            }
+            
+            /* Button styling */
+            button {
+                border-radius: 10px !important;
+                font-weight: 600 !important;
+                transition: all 0.3s ease !important;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+            }
+            
+            /* Input styling */
+            textarea, input {
+                border-radius: 10px !important;
+                border: 2px solid #e2e8f0 !important;
+                transition: all 0.3s ease !important;
+            }
+            
+            textarea:focus, input:focus {
+                border-color: #667eea !important;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+            }
+            
+            /* Tab styling */
+            .tabs {
+                border-radius: 15px;
+                overflow: hidden;
+            }
+            
+            .tab-nav button {
+                font-size: 1.1em !important;
+                padding: 15px 25px !important;
+                font-weight: 600 !important;
+            }
+            
+            /* Accordion styling */
+            .accordion {
+                border-radius: 10px !important;
+                border: 2px solid #e2e8f0 !important;
+            }
+            
+            /* Markdown output styling */
+            .markdown-output {
+                background: white;
+                padding: 25px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                line-height: 1.8;
+            }
+            
+            .markdown-output h1 {
+                color: #667eea;
+                border-bottom: 3px solid #667eea;
+                padding-bottom: 10px;
+            }
+            
+            .markdown-output h2 {
+                color: #764ba2;
+                margin-top: 30px;
+            }
+            
+            /* Slider styling */
+            .slider {
+                accent-color: #667eea !important;
+            }
+            
+            /* Loading animation */
+            @keyframes shimmer {
+                0% { background-position: -1000px 0; }
+                100% { background-position: 1000px 0; }
+            }
+            
+            .loading {
+                background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                background-size: 1000px 100%;
+                animation: shimmer 2s infinite;
+            }
+            
+            /* Responsive design */
+            @media (max-width: 768px) {
+                .main-header h1 {
+                    font-size: 2em;
+                }
+                .card {
+                    padding: 15px;
+                }
+            }
             """
         ) as interface:
             
-            gr.Markdown("""
-            # 🔬 Intelligent Research Assistant
-            
-            Welcome to the AI-powered research assistant! Submit your research query below and get comprehensive, 
-            well-sourced reports generated automatically from multiple data sources.
+            # Beautiful header
+            gr.HTML("""
+            <div class="main-header">
+                <h1>🔬 Intelligent Research Assistant</h1>
+                <p>AI-Powered Research Automation • Powered by Google Gemini</p>
+                <p style="font-size: 0.9em; margin-top: 15px; opacity: 0.9;">
+                    🚀 Get comprehensive, well-sourced reports in minutes • 🌐 Multi-source data collection • 
+                    ✨ Smart fact-checking • 📊 Professional reports
+                </p>
+            </div>
             """)
             
             with gr.Tabs():
@@ -888,60 +1080,91 @@ To update API keys and configuration:
                 with gr.Tab("🔍 Research", elem_id="research-tab"):
                     with gr.Row():
                         with gr.Column(scale=2):
-                            # Query input
+                            # Query input with examples
                             query_input = gr.Textbox(
-                                label="Research Query",
+                                label="🔍 Research Query",
                                 placeholder="Enter your research question or topic here...",
                                 lines=3,
                                 max_lines=5
                             )
                             
+                            # Example queries
+                            gr.Examples(
+                                examples=[
+                                    ["What are the latest developments in artificial intelligence for education?"],
+                                    ["Impact of climate change on global food security"],
+                                    ["Current trends in renewable energy technology"],
+                                    ["How does blockchain technology work and what are its applications?"],
+                                    ["Mental health effects of social media on teenagers"],
+                                ],
+                                inputs=query_input,
+                                label="💡 Example Queries"
+                            )
+                            
                             # Configuration options
-                            with gr.Accordion("Research Configuration", open=False):
+                            with gr.Accordion("⚙️ Advanced Configuration", open=False):
                                 with gr.Row():
                                     max_sources = gr.Slider(
                                         minimum=5,
                                         maximum=50,
                                         value=10,
                                         step=5,
-                                        label="Maximum Sources"
+                                        label="📚 Maximum Sources",
+                                        info="More sources = more comprehensive research"
                                     )
                                     timeout_seconds = gr.Slider(
                                         minimum=60,
                                         maximum=300,
                                         value=120,
                                         step=30,
-                                        label="Timeout (seconds)"
+                                        label="⏱️ Timeout (seconds)",
+                                        info="Maximum time for research"
                                     )
                                 
                                 with gr.Row():
                                     enable_web_scraping = gr.Checkbox(
-                                        label="Enable Web Scraping",
-                                        value=True
+                                        label="🌐 Enable Web Scraping",
+                                        value=True,
+                                        info="Extract detailed content from web pages"
                                     )
                                     enable_vector_search = gr.Checkbox(
-                                        label="Enable Vector Database Search",
-                                        value=True
+                                        label="🔍 Enable Vector Database Search",
+                                        value=True,
+                                        info="Search through previously collected data"
                                     )
                                 
                                 with gr.Row():
                                     report_style = gr.Dropdown(
                                         choices=["academic", "casual", "technical"],
                                         value="academic",
-                                        label="Report Style"
+                                        label="📝 Report Style",
+                                        info="Choose the tone of your report"
                                     )
                                     report_length = gr.Dropdown(
                                         choices=["short", "medium", "long"],
                                         value="medium",
-                                        label="Report Length"
+                                        label="📄 Report Length",
+                                        info="How detailed should the report be?"
                                     )
                             
-                            # Research button
+                            # Research button with custom styling
                             research_btn = gr.Button(
                                 "🚀 Start Research",
                                 variant="primary",
-                                size="lg"
+                                size="lg",
+                                elem_classes=["research-button"]
                             )
+                            
+                            gr.HTML("""
+                            <style>
+                                .research-button {
+                                    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%) !important;
+                                    font-size: 1.2em !important;
+                                    padding: 15px 40px !important;
+                                    margin-top: 20px !important;
+                                }
+                            </style>
+                            """)
                         
                         with gr.Column(scale=1):
                             # Progress display
@@ -1152,6 +1375,20 @@ To update API keys and configuration:
                 fn=self.validate_system_configuration,
                 outputs=config_status
             )
+            
+            # Beautiful footer
+            gr.HTML("""
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; color: white;">
+                <h3 style="margin: 0; font-size: 1.5em;">🔬 Intelligent Research Assistant</h3>
+                <p style="margin: 10px 0 5px 0; opacity: 0.9;">Powered by Google Gemini AI • Built with ❤️ for Researchers</p>
+                <p style="margin: 5px 0; font-size: 0.9em; opacity: 0.8;">
+                    🌟 Open Source • 🚀 Fast & Reliable • 🔒 Secure
+                </p>
+                <div style="margin-top: 20px; font-size: 0.85em; opacity: 0.7;">
+                    <p>Need help? Check the Settings tab for configuration • View your research history in the History tab</p>
+                </div>
+            </div>
+            """)
         
         return interface
     
