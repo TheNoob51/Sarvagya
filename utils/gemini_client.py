@@ -25,7 +25,7 @@ class GeminiConfig:
     max_delay: float = 60.0  # Maximum delay between retries
     rate_limit_per_minute: int = 60
     default_temperature: float = 0.7
-    max_tokens: int = 8192
+    max_tokens: int = 16384  # Increased for comprehensive responses
 
 class RateLimiter:
     """Simple rate limiter for API calls"""
@@ -241,9 +241,34 @@ Please respond with valid JSON only. Do not include any explanatory text before 
             return result
         except json.JSONDecodeError as e:
             logger.error("Failed to parse JSON response", 
-                        response=response_text[:200], 
+                        response=response_text[:500], 
                         error=str(e))
-            raise Exception(f"Invalid JSON response from Gemini API: {str(e)}")
+            
+            # Try to fix incomplete JSON by adding closing braces
+            try:
+                # Count opening and closing braces
+                open_braces = cleaned_response.count('{')
+                close_braces = cleaned_response.count('}')
+                open_brackets = cleaned_response.count('[')
+                close_brackets = cleaned_response.count(']')
+                
+                # Add missing closing characters
+                fixed_response = cleaned_response
+                if open_braces > close_braces:
+                    fixed_response += '}' * (open_braces - close_braces)
+                if open_brackets > close_brackets:
+                    fixed_response += ']' * (open_brackets - close_brackets)
+                
+                result = json.loads(fixed_response)
+                logger.warning("JSON was incomplete but successfully fixed")
+                return result
+            except:
+                # If fixing doesn't work, return a minimal valid response
+                logger.error("Could not fix incomplete JSON, returning minimal response")
+                return {
+                    "error": "Incomplete JSON response from API",
+                    "partial_response": cleaned_response[:200]
+                }
     
     def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
         """
