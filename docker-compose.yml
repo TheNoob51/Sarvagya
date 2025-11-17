@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  research-assistant:
+    build: .
+    ports:
+      - "7860:7860"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - SERPAPI_KEY=${SERPAPI_KEY}
+      - GRADIO_HOST=0.0.0.0
+      - GRADIO_PORT=7860
+    volumes:
+      - ./data:/app/data
+      - ./credentials:/app/credentials
+    restart: unless-stopped
