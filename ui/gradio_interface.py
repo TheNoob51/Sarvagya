@@ -879,7 +879,7 @@ To update API keys and configuration:
         )
         
         with gr.Blocks(
-            title="🔬 Intelligent Research Assistant",
+            title="🔬 Sarvagya - Intelligent Research Assistant",
             theme=gr.themes.Soft(
                 primary_hue="slate",
                 secondary_hue="blue",
@@ -1068,7 +1068,7 @@ To update API keys and configuration:
             gr.HTML("""
             <div style="background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%); padding: 32px; border-radius: 12px; margin-bottom: 24px; border: 1px solid rgba(59, 130, 246, 0.3); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
                 <h1 style="color: #e2e8f0; font-family: 'JetBrains Mono', monospace; font-size: 2.5em; margin: 0; text-align: center; font-weight: 600;">
-                    🔬 RESEARCH LAB INTERFACE
+                    🔬 Sarvagya - Intelligent Research Assistant
                 </h1>
                 <p style="color: #94a3b8; text-align: center; margin: 16px 0 8px 0; font-family: 'JetBrains Mono', monospace; font-size: 1.1em;">
                     AI-Powered Research Automation System

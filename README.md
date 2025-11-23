@@ -70,11 +70,11 @@ The system implements a coordinated multi-agent architecture where specialized a
 └─┬─┘   └─┬─┘   └─┬─┘   └─┬─┘   └─┬─┘   └─┬─┘
   │       │       │       │       │       │
   ▼       ▼       ▼       ▼       │       │
-┌────┐  ┌────┐  ┌────┐  ┌────┐   │       │
-│Gem │  │Serp│  │Web │  │Chr │   │       │
-│ini │  │API │  │Page│  │oma │   │       │
-│API │  │/DDG│  │s   │  │DB  │   │       │
-└────┘  └────┘  └────┘  └────┘   │       │
+┌────┐  ┌────┐  ┌────┐  ┌────┐    │       │
+│Gem │  │Serp│  │Web │  │Chr │    │       │
+│ini │  │API │  │Page│  │oma │    │       │
+│API │  │/DDG│  │s   │  │DB  │    │       │
+└────┘  └────┘  └────┘  └────┘    │       │
                                   ▼       ▼
                               ┌──────────────┐
                               │  Gemini API  │
